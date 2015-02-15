@@ -1,14 +1,12 @@
 from Plugins.Plugin import PluginDescriptor
-from Screens.Screen import Screen
-from Components.Label import Label
-from Components.ConfigList import ConfigListScreen
-from Components.ProgressBar import ProgressBar
-from Components.Pixmap import Pixmap
-from Components.Sources.StaticText import StaticText
-from Components.ActionMap import NumberActionMap, ActionMap
-from Components.config import config, ConfigSubsection, ConfigSelection, ConfigYesNo, ConfigInteger, getConfigListEntry, ConfigSlider, ConfigEnableDisable
 
-class TranscodingSetup(ConfigListScreen, Screen):
+import Screens.Screen
+import Components.ConfigList
+import Components.Sources.StaticText
+import Components.ActionMap
+import Components.config
+
+class TranscodingSetup(Components.ConfigList.ConfigListScreen, Screens.Screen.Screen):
 	skin = 	"""
 		<screen position="center,center" size="500,114" title="TranscodingSetup">
 			<eLabel position="0,0" size="500,22" font="Regular;20" text="Default values for trancoding" />
@@ -37,16 +35,16 @@ class TranscodingSetup(ConfigListScreen, Screen):
 		current_bitrate_value = ""
 		current_size = ""
 
-		Screen.__init__(self, session)
+		Screens.Screen.Screen.__init__(self, session)
 
 		config_list = []
-		ConfigListScreen.__init__(self, config_list)
+		Components.ConfigList.ConfigListScreen.__init__(self, config_list)
 
-		self.bitrate = ConfigSelection(choices = bitrate_choices)
-		self.size = ConfigSelection(choices = size_choices)
+		self.bitrate = Components.config.ConfigSelection(choices = bitrate_choices)
+		self.size = Components.config.ConfigSelection(choices = size_choices)
 
-		config_list.append(getConfigListEntry(_("Bitrate"), self.bitrate));
-		config_list.append(getConfigListEntry(_("Video size"), self.size));
+		config_list.append(Components.config.getConfigListEntry(_("Bitrate"), self.bitrate));
+		config_list.append(Components.config.getConfigListEntry(_("Video size"), self.size));
 
 		self["config"].list = config_list
 
@@ -74,7 +72,7 @@ class TranscodingSetup(ConfigListScreen, Screen):
 
 				self.content += [ tokens ]
 
-		self["actions"] = ActionMap(["OkCancelActions", "ShortcutActions", "ColorActions" ],
+		self["actions"] = Components.ActionMap.ActionMap(["OkCancelActions", "ShortcutActions", "ColorActions" ],
 		{
 			"red": self.keyCancel,
 			"green": self.keyGo,
@@ -82,14 +80,14 @@ class TranscodingSetup(ConfigListScreen, Screen):
 			"cancel": self.keyCancel,
 		}, -2)
 
-		self["key_red"] = StaticText(_("Quit"))
-		self["key_green"] = StaticText(_("Set"))
+		self["key_red"] = Components.Sources.StaticText.StaticText(_("Quit"))
+		self["key_green"] = Components.Sources.StaticText.StaticText(_("Set"))
 
 	def keyLeft(self):
-		ConfigListScreen.keyLeft(self)
+		Components.ConfigList.ConfigListScreen.keyLeft(self)
 
 	def keyRight(self):
-		ConfigListScreen.keyRight(self)
+		Components.ConfigList.ConfigListScreen.keyRight(self)
 
 	def keyCancel(self):
 		self.close()
