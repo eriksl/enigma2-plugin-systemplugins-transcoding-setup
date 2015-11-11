@@ -53,23 +53,23 @@ class TranscodingSetup(Components.ConfigList.ConfigListScreen, Screens.Screen.Sc
 		transcoding = None;
 		port = None;
 
-                try:
-		    with open("/proc/stb/info/vumodel", "r") as f:
-			    vumodel = f.readlines();
-			    vumodel = [x.translate(None, ' \n\r') for x in vumodel]
-                            vumodel = vumodel[0]
-			    f.close
-                except:
-                    pass
+		try:
+			with open("/proc/stb/info/vumodel", "r") as f:
+				vumodel = f.readlines();
+				vumodel = [x.translate(None, ' \n\r') for x in vumodel]
+				vumodel = vumodel[0]
+				f.close
+		except:
+			pass
 
-                try:
-		    with open("/proc/stb/info/boxtype", "r") as f:
-			    boxtype = f.readlines();
-			    boxtype = [x.translate(None, ' \n\r') for x in boxtype]
-                            boxtype = boxtype[0]
-			    f.close
-                except:
-                    pass
+		try:
+			with open("/proc/stb/info/boxtype", "r") as f:
+				boxtype = f.readlines();
+				boxtype = [x.translate(None, ' \n\r') for x in boxtype]
+				boxtype = boxtype[0]
+				f.close
+		except:
+			pass
 
 		if vumodel == "solo2" or vumodel == "duo2":
 			transcoding = "vuplus"
@@ -81,9 +81,9 @@ class TranscodingSetup(Components.ConfigList.ConfigListScreen, Screens.Screen.Sc
 			port = 8002
 		else:
 			if transcoding == "enigma2":
-			    port = 8001
+				port = 8001
 
-                Components.config.config.plugins.transcodingsetup = Components.config.ConfigSubsection()
+		Components.config.config.plugins.transcodingsetup = Components.config.ConfigSubsection()
 		Components.config.config.plugins.transcodingsetup.port = Components.config.ConfigInteger(default = None)
 		Components.config.config.plugins.transcodingsetup.bitrate = Components.config.ConfigInteger(default = None)
 		Components.config.config.plugins.transcodingsetup.resolution = Components.config.ConfigText(default = "")
@@ -91,24 +91,24 @@ class TranscodingSetup(Components.ConfigList.ConfigListScreen, Screens.Screen.Sc
 		Components.config.config.plugins.transcodingsetup.aspectratio = Components.config.ConfigInteger(default = None)
 		Components.config.config.plugins.transcodingsetup.interlaced = Components.config.ConfigInteger(default = None)
 
-                print "\n\n**** config port is", Components.config.config.plugins.transcodingsetup.port.value
-                print "**** config bitrate is", Components.config.config.plugins.transcodingsetup.bitrate.value
-                print "**** config resolution is", Components.config.config.plugins.transcodingsetup.resolution.value
-                print "**** config framerate is", Components.config.config.plugins.transcodingsetup.framerate.value
-                print "**** config aspectratio is", Components.config.config.plugins.transcodingsetup.aspectratio.value
-                print "**** config interlaced is", Components.config.config.plugins.transcodingsetup.interlaced.value
-                print "**** vumodel is", vumodel
-                print "**** boxtype is", boxtype
-                print "**** transcoding is", transcoding
-                print "**** port is", port
+		print "\n\n**** config port is", Components.config.config.plugins.transcodingsetup.port.value
+		print "**** config bitrate is", Components.config.config.plugins.transcodingsetup.bitrate.value
+		print "**** config resolution is", Components.config.config.plugins.transcodingsetup.resolution.value
+		print "**** config framerate is", Components.config.config.plugins.transcodingsetup.framerate.value
+		print "**** config aspectratio is", Components.config.config.plugins.transcodingsetup.aspectratio.value
+		print "**** config interlaced is", Components.config.config.plugins.transcodingsetup.interlaced.value
+		print "**** vumodel is", vumodel
+		print "**** boxtype is", boxtype
+		print "**** transcoding is", transcoding
+		print "**** port is", port
 
 		if Components.config.config.plugins.transcodingsetup.framerate.value is None:
 			Components.config.config.plugins.transcodingsetup.framerate.value = 30000
 
-                if Components.config.config.plugins.transcodingsetup.aspectratio.value is None:
+		if Components.config.config.plugins.transcodingsetup.aspectratio.value is None:
 			Components.config.config.plugins.transcodingsetup.aspectratio.value = 2
 
-                if Components.config.config.plugins.transcodingsetup.interlaced.value is None:
+		if Components.config.config.plugins.transcodingsetup.interlaced.value is None:
 			Components.config.config.plugins.transcodingsetup.interlaced.value = 0
 
 		if Components.config.config.plugins.transcodingsetup.port.value is None:
@@ -171,25 +171,25 @@ class TranscodingSetup(Components.ConfigList.ConfigListScreen, Screens.Screen.Sc
 				f.write("%s = %s\n" % (token[0], token[1]))
 			f.close()
 
-                print "**** bitrate:", self.bitrate.value
+		print "**** bitrate:", self.bitrate.value
 
-                if self.size.value == "480p":
-                    resx = 720
-                    resy = 480
-                else:
-                    if self.size.value == "576p":
-                        resx = 720
-                        resy = 576
-                    else:
-                        if self.size.value == "720p":
-                            resx = 1280
-                            resy = 720
+		if self.size.value == "480p":
+			resx = 720
+			resy = 480
+		else:
+			if self.size.value == "576p":
+				resx = 720
+				resy = 576
+			else:
+				if self.size.value == "720p":
+					resx = 1280
+					resy = 720
 
-                print "**** size:", self.size.value, resx, resy
+		print "**** size:", self.size.value, resx, resy
 
-                resolution = "%dx%d" % (resx, resy)
+		resolution = "%dx%d" % (resx, resy)
 
-                print "resolution:", resolution
+		print "resolution:", resolution
 
 		Components.config.config.plugins.transcodingsetup.port.save()
 		Components.config.config.plugins.transcodingsetup.bitrate.value = self.bitrate.value * 1000
